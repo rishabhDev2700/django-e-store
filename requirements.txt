@@ -18,6 +18,7 @@ razorpay==1.4.2
 rcssmin==1.1.2
 requests==2.32.3
 rjsmin==1.2.2
+setuptools==75.8.0
 sqlparse==0.5.2
 typing_extensions==4.12.2
 urllib3==2.2.3
