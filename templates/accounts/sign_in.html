@@ -1,0 +1,21 @@
+{% extends '../base.html' %}
+{% block title %}Sign In{% endblock %}
+{% block content %}
+<div class="flex flex-col items-center w-full mx-auto min-h-[60vh] min-w-xl col-span-full">
+    <div class="w-full max-w-md bg-white p-6 shadow-md shadow-black/20 rounded-lg border-2 border-gray-200">
+        <h1 class="text-4xl text-center font-semibold text-gray-800 my-4">Sign In</h1>
+        <form action="{% url 'accounts:sign_in' %}" method="post" class="flex flex-col">
+            {% csrf_token %}
+            <input
+                class="p-3 my-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                type="text" name="username" id="username-input" placeholder="Username" required>
+            <input
+                class="p-3 my-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                type="password" name="password" id="password-input" placeholder="Password" required>
+            <input
+                class="px-4 py-2 rounded-lg mt-4 shadow-md shadow-black/20 bg-blue-600 hover:bg-blue-700 text-white font-semibold w-36 self-center transition transform hover:scale-95 cursor-pointer"
+                type="submit" value="Log In">
+        </form>
+    </div>
+</div>
+{% endblock %}

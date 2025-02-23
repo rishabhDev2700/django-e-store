@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ item.name }}{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 py-8">
+  <h1 class="text-4xl font-bold mb-6 text-center">{{ item.name }}</h1>
+  <div class="flex flex-col lg:flex-row items-center lg:space-x-8">
+    <div class="w-full lg:w-1/2">
+      <img class="w-full rounded-md shadow-md object-cover" src="{{ item.cover.url }}" alt="{{ item.name }}">
+    </div>
+    <div class="w-full lg:w-1/2 mt-6 lg:mt-0">
+      <h2 class="text-2xl font-semibold mb-4">{{ item.name }}</h2>
+      <p class="text-gray-700 mb-4">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero quas eligendi tempora reiciendis explicabo
+        laborum fugit modi sunt.
+      </p>
+      <div class="text-xl font-medium text-gray-900 mb-4">Price: Rs. <span>{{ item.price }}</span></div>
+
+      {% if user.is_authenticated %}
+      <div class="flex flex-col sm:flex-row sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">
+        <select id="quantity{{ item.id }}" name="quantity"
+          class="p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-gray-200">
+          {% for i in "12345678910" %}
+          <option value="{{ i }}">{{ i }}</option>
+          {% endfor %}
+        </select>
+        <button id="add-button" value="{{ item.id }}"
+          class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded transition">
+          Add to Bag
+        </button>
+      </div>
+      {% else %}
+      <div class="mt-4 text-sm text-gray-600">
+        Login to order <a class="text-blue-600 hover:underline" href="{% url 'accounts:sign_in' %}">Login</a>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+  $(document).on('click', '#add-button', function (e) {
+    e.preventDefault();
+    let itemId = $(this).val();
+    let quantity = $("#quantity" + itemId).find("option:selected").text();
+    $.ajax({
+      type: 'POST',
+      url: '{% url "orders:bag_add" %}',
+      data: {
+        item_id: itemId,
+        quantity: quantity,
+        csrfmiddlewaretoken: "{{ csrf_token }}",
+        action: 'post'
+      },
+      success: function (json) {
+        document.getElementById("bag-quantity").innerHTML = json.quantity;
+        document.getElementById("subtotal").innerHTML = json.subtotal;
+      },
+      error: function (xhr, errmsg, err) {
+        console.error("Error adding item:", errmsg);
+      }
+    });
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,35 @@
+{%extends '../base.html'%}
+{%block title%}
+{%endblock%}
+{%block content%}
+<div class="text-center">
+  <h1 class="text-5xl text-center">Lumière</h1>
+  <div class="text-xl my-6">After confirming payment you order will be placed</div>
+  <div class="grid justify-center text-3xl animate animate-pulse">
+    <button
+      class="px-12 py-4 my-8 bg-green-500 text-white hover:bg-green-600 hover:scale-95 rounded-md shadow-md shadow-black/50 duration-200"
+      id="pay-btn">Pay️
+    </button>
+  </div>
+</div>
+
+<!-- Razorpay's Javascript code. -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+  var options = {
+
+    key: "{{ razorpay_merchant_key }}",
+    amount: "{{ razorpay_amount }}",
+    currency: "{{ currency }}",
+    name: "Lumière",
+    order_id: "{{ razorpay_order_id }}",
+    callback_url: "{{ callback_url }}",
+  };
+  var rzp1 = new Razorpay(options);
+  document.getElementById("pay-btn").onclick = function (e) {
+    rzp1.open();
+    e.preventDefault();
+  };
+
+</script>
+{%endblock%}

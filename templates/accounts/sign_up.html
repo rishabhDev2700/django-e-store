@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load tailwind_filters %}
+{% load static %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block content %}
+<div class="w-full max-w-md bg-white p-6 shadow-md shadow-black/20 rounded-lg border-2 border-gray-200">
+
+    <h1 class="text-4xl font-semibold mb-6">Create an Account</h1>
+    <form action="{% url 'accounts:sign_up' %}" method="post" class="w-full flex flex-col">
+        {% csrf_token %}
+        <div class="space-y-4">
+            {{ form|crispy }}
+        </div>
+        <input
+                class="px-4 py-2 rounded-lg mt-4 shadow-md shadow-black/20 bg-blue-600 hover:bg-blue-700 text-white font-semibold w-36 self-center transition transform hover:scale-95 cursor-pointer"
+            type="submit" value="Sign Up">
+    </form>
+</div>
+{% endblock %}

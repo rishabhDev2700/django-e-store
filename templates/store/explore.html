@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Explore{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8 max-w-7xl">
+    <h1 class="text-4xl font-bold text-center mb-8">Explore</h1>
+
+    <!-- Featured Categories -->
+    <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-4">Featured Categories</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {% for category in featured_categories %}
+            <a href="{{ category.get_absolute_url }}"
+                class="block rounded-lg overflow-hidden shadow-md hover:shadow-xl transition">
+                <img src="{{ category.cover.url }}" alt="{{ category.name }}" class="w-full h-40 object-cover">
+                <div class="p-2 text-center bg-gray-900 text-white">
+                    <h3 class="text-lg font-medium">{{ category.name }}</h3>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Latest Products -->
+    <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-4">New Arrivals</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {% for product in latest_products %}
+            <a href="{{ product.get_absolute_url }}"
+                class="block bg-white rounded-lg shadow-md hover:shadow-xl transition">
+                <img src="{{ product.cover.url }}" alt="{{ product.name }}"
+                    class="w-full h-40 object-cover rounded-t-lg">
+                <div class="p-3">
+                    <h3 class="text-lg font-medium">{{ product.name }}</h3>
+                    <p class="text-gray-600">{{ product.category.name }}</p>
+                    <p class="text-xl font-bold text-gray-900">${{ product.effective_price }}</p>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Trending Products -->
+    <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-4">Trending Now</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {% for product in trending_products %}
+            <a href="{{ product.get_absolute_url }}"
+                class="block bg-white rounded-lg shadow-md hover:shadow-xl transition">
+                <img src="{{ product.cover.url }}" alt="{{ product.name }}"
+                    class="w-full h-40 object-cover rounded-t-lg">
+                <div class="p-3">
+                    <h3 class="text-lg font-medium">{{ product.name }}</h3>
+                    <p class="text-gray-600">{{ product.category.name }}</p>
+                    <p class="text-xl font-bold text-gray-900">${{ product.effective_price }}</p>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Discounted Products -->
+    <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-4">On Discount</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {% for product in discounted_products %}
+            <a href="{{ product.get_absolute_url }}"
+                class="block bg-white rounded-lg shadow-md hover:shadow-xl transition">
+                <img src="{{ product.cover.url }}" alt="{{ product.name }}"
+                    class="w-full h-40 object-cover rounded-t-lg">
+                <div class="p-3">
+                    <h3 class="text-lg font-medium">{{ product.name }}</h3>
+                    <p class="text-gray-600">{{ product.category.name }}</p>
+                    <p class="text-xl font-bold text-red-600">
+                        ${{ product.effective_price }}
+                        <span class="line-through text-gray-500 text-sm">${{ product.price }}</span>
+                    </p>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+{% endblock %}

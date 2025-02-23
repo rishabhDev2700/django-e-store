@@ -1,0 +1,175 @@
+{% extends "../base.html" %}
+{% load static %}
+{% block title %}Product Detail{% endblock %}
+{% block content %}
+<div class="container mx-auto p-4 grid lg:grid-cols-5 gap-8 w-full">
+    <!-- Image Carousel -->
+    <div
+        class="lg:col-span-3 relative overflow-hidden rounded-xl shadow-md w-full h-[50vh] bg-gray-100 flex items-center justify-center -z-40">
+        <div class="carousel-inner relative w-full h-full">
+            {% for image in images %}
+            <div
+                class="carousel-item absolute inset-0 w-full h-full opacity-0 transition-opacity duration-700 ease-in-out">
+                <img src="{{ image.image.url }}" alt="Product Image" class="w-full h-full object-contain rounded-xl">
+            </div>
+            {% endfor %}
+        </div>
+        <button id="prev" class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-700 hover:text-gray-900">
+            &#10094;
+        </button>
+        <button id="next" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-700 hover:text-gray-900">
+            &#10095;
+        </button>
+    </div>
+
+
+    <!-- Product Details -->
+    <div class="lg:col-span-2 space-y-6">
+        <h1 class="text-4xl font-semibold">{{ product.name }}</h1>
+        <p class="text-xl text-gray-600 font-medium">${{ product.price }}</p>
+        <p class="text-gray-700">{{ product.description }}</p>
+
+        <div class="flex space-x-2 items-center">
+            <select id="quantity{{ product.id }}"
+                class="border border-gray-300 bg-white text-gray-900 px-4 py-3 rounded-md shadow-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 hover:bg-gray-100 transition duration-300">
+                {% for i in "12345" %}
+                <option value="{{ i }}">{{ i }}</option>
+                {% endfor %}
+            </select>
+            <button id="add-button" value="{{ product.id }}"
+                class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+                Add to Cart
+            </button>
+            <a href="{% url 'orders:summary' %}" class="px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-900">
+                View Cart
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Reviews -->
+<div class="container mx-auto mt-12">
+    <h2 class="text-3xl font-semibold mb-6">Reviews</h2>
+    {% if not reviews %}
+    <p class="text-gray-500">No reviews yet.</p>
+    {% else %}
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for review in reviews %}
+        <div class="border p-4 rounded shadow-md">
+            <div class="flex justify-between items-center">
+                <h3 class="font-semibold">{{ review.user.username }}</h3>
+                <span class="text-yellow-500 text-xl">&#9733; {{ review.rating }}</span>
+            </div>
+            <p class="text-gray-700">{{ review.review }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+
+
+<script>
+    // Carousel functionality
+    let currentIndex = 0;
+    const items = document.querySelectorAll(".carousel-item");
+    const itemCount = items.length;
+
+    function showItem(index) {
+        items.forEach((item, i) => {
+            item.classList.remove("opacity-100");
+            item.classList.add("opacity-0");
+            if (i === index) {
+                item.classList.remove("opacity-0");
+                item.classList.add("opacity-100");
+            }
+        });
+    }
+
+    function nextSlide() {
+        currentIndex = (currentIndex + 1) % itemCount;
+        showItem(currentIndex);
+    }
+
+    function prevSlide() {
+        currentIndex = (currentIndex - 1 + itemCount) % itemCount;
+        showItem(currentIndex);
+    }
+
+    // Initialize first image
+    showItem(currentIndex);
+
+    // Auto-slide every 2 seconds
+    let autoSlide = setInterval(nextSlide, 4000);
+
+    // Manual controls
+    document.getElementById("next").addEventListener("click", () => {
+        nextSlide();
+        resetAutoSlide();
+    });
+
+    document.getElementById("prev").addEventListener("click", () => {
+        prevSlide();
+        resetAutoSlide();
+    });
+
+    // Reset auto-slide timer when user interacts
+    function resetAutoSlide() {
+        clearInterval(autoSlide);
+        autoSlide = setInterval(nextSlide, 2000);
+    }
+    // Function to display messages
+
+
+    // Add to Cart AJAX Request
+    $(document).on("click", "#add-button", function (e) {
+        e.preventDefault();
+        let itemId = $(this).val();
+        let quantity = $("#quantity" + itemId).find("option:selected").text();
+
+        $.ajax({
+            type: "POST",
+            url: "{% url 'orders:bag_add' %}",
+            data: {
+                item_id: itemId,
+                quantity: quantity,
+                csrfmiddlewaretoken: "{{ csrf_token }}",
+                action: "post",
+            },
+            success: function (json) {
+                showMessage(json.message);
+                $("#bag-quantity").text(json.quantity);
+            },
+            error: function (xhr, errmsg, err) {
+                console.error("Error adding to cart:", errmsg);
+            },
+        });
+    });
+
+    // Update Quantity AJAX Request
+    $(document).on("change", '[id^="quantity"]', function (e) {
+        e.preventDefault();
+        let itemId = $(this).attr("id").replace("quantity", "");
+        let quantity = $(this).find("option:selected").text();
+
+        $.ajax({
+            type: "POST",
+            url: "{% url 'orders:bag_update' %}",
+            data: {
+                item_id: itemId,
+                quantity: quantity,
+                csrfmiddlewaretoken: "{{ csrf_token }}",
+                action: "post",
+            },
+            success: function (json) {
+                showMessage("Quantity updated successfully!");
+                $("#bag-quantity").text(json.quantity);
+                $("#subtotal").text("$" + parseFloat(json.subtotal).toFixed(2));
+            },
+            error: function (xhr, errmsg, err) {
+                console.error("Error updating quantity:", errmsg);
+            },
+        });
+    });
+
+</script>
+{% endblock %}

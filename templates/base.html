@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- System fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap">
+
+  <!-- Tailwind Browser Plugin -->
+  <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/png" sizes="32x32" href="{% static 'fav/favicon-32x32.png' %}">
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="//unpkg.com/alpinejs" defer></script>
+  <title>{% block title %}Lumière{% endblock title %}</title>
+</head>
+
+<body class="min-h-screen bg-white text-gray-900">
+  {% include "./components/navigation.html" %}
+
+  <!-- Main Content -->
+  <div class="grid lg:grid-cols-6">
+
+    {% include "./components/sidebar.html" %}
+    <main class="max-w-[90rem] mx-auto px-4 py-8 min-h-[65vh] lg:col-span-5">
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+
+  <!-- Messages -->
+  <div id="message-box" class="fixed bottom-4 right-4 w-64">
+    <ul class="space-y-2 messages">
+      {% for message in messages %}
+      <li class="bg-gray-100 p-3 text-sm rounded shadow-md fade-message message">{{ message }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <!-- Footer -->
+  {% include "./components/footer.html" %}
+
+  <script src="{% static 'js/script.js' %}"></script>
+</body>
+
+</html>
