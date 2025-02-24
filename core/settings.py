@@ -10,7 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
-import os
 from pathlib import Path
 
 import environ
@@ -28,11 +27,9 @@ environ.Env.read_env()
 SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-
 DEBUG = env("DEBUG", bool, True)
-ALLOWED_HOSTS = [
-   "*"
-]
+
+ALLOWED_HOSTS = ["*"]
 # CSRF_TRUSTED_ORIGINS = [
 #     "https://art-store-production.up.railway.app",
 #     "http://localhost",
@@ -55,6 +52,7 @@ INSTALLED_APPS = [
     "crispy_forms",
     "crispy_tailwind",
     "taggit",
+    "storages",
 ]
 
 MIDDLEWARE = [
@@ -85,6 +83,7 @@ TEMPLATES = [
         },
     },
 ]
+
 CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
 
 CRISPY_TEMPLATE_PACK = "tailwind"
@@ -96,14 +95,14 @@ WSGI_APPLICATION = "core.wsgi.application"
 
 DATABASES = {
     "default": {
-        #     "ENGINE": "django.db.backends.postgresql",
-        #     "NAME": os.getenv("DB_NAME"),
-        #     "USER": os.getenv("DB_USER"),
-        #     "PASSWORD": os.getenv("DB_PASSWORD"),
-        #     "HOST": os.getenv("DB_HOST"),
-        #     "PORT": os.getenv("DB_PORT"),
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": env("POSTGRES_DB"),
+        "USER": env("POSTGRES_USER"),
+        "PASSWORD": env("POSTGRES_PASSWORD"),
+        "HOST": env("PGHOST"),
+        "PORT": env("PGPORT"),
+        # "ENGINE": "django.db.backends.sqlite3",
+        # "NAME": BASE_DIR / "db.sqlite3",
     }
 }
 
@@ -157,3 +156,38 @@ LOGOUT_URL = "accounts:logout"
 LOGIN_URL = "accounts:sign_in"
 RAZORPAY_ID = env("RAZORPAY_ID")
 RAZORPAY_SECRET_KEY = env("RAZORPAY_SECRET_KEY")
+
+
+AWS_ACCESS_KEY_ID = env("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = env("AWS_SECRET_ACCESS_KEY")
+AWS_STORAGE_BUCKET_NAME = env("AWS_STORAGE_BUCKET_NAME")
+AWS_S3_REGION_NAME = env("AWS_S3_REGION_NAME", str, "eu-north-1")
+
+
+if DEBUG:
+    # Development: use local file system for both default and staticfiles
+    STORAGES = {
+        "default": {
+            "BACKEND": "django.core.files.storage.FileSystemStorage",
+        },
+        "staticfiles": {
+            "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        },
+    }
+else:
+    # Production: use S3 for both default and staticfiles
+    STORAGES = {
+        "default": {
+            "BACKEND": "storages.backends.s3.S3Storage",
+        },
+        "staticfiles": {
+            "BACKEND": "storages.backends.s3.S3Storage",
+        },
+    }
+
+# Private Media File Storage
+AWS_QUERYSTRING_AUTH = True  # Enables signed URLs
+AWS_S3_CUSTOM_DOMAIN = None  # Prevents direct URL access
+AWS_S3_OBJECT_PARAMETERS = {
+    "CacheControl": "max-age=86400",
+}

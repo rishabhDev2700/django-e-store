@@ -6,3 +6,4 @@ collected
 # media/*
 venv/
 .vscode
+media/
