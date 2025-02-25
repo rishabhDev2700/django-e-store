@@ -141,11 +141,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = "static/"
-STATIC_ROOT = "collected"
-STATICFILES_DIRS = [BASE_DIR / "static/"]
-MEDIA_URL = "media/"
-MEDIA_ROOT = "media/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -174,20 +169,28 @@ if DEBUG:
             "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
         },
     }
+    MEDIA_ROOT = "/media/"
+    MEDIA_URL = "/media/"
 else:
     # Production: use S3 for both default and staticfiles
     STORAGES = {
-        "default": {
-            "BACKEND": "storages.backends.s3.S3Storage",
-        },
-        "staticfiles": {
-            "BACKEND": "storages.backends.s3.S3Storage",
-        },
+        "default": {"BACKEND": "core.storage.MediaStorage"},
+        "staticfiles": {"BACKEND": "core.storage.StaticStorage"},
     }
 
 # Private Media File Storage
 AWS_QUERYSTRING_AUTH = True  # Enables signed URLs
-AWS_S3_CUSTOM_DOMAIN = None  # Prevents direct URL access
+AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
+
 AWS_S3_OBJECT_PARAMETERS = {
     "CacheControl": "max-age=86400",
 }
+AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
+
+STATICFILES_DIRS = [BASE_DIR / "static/"]
+
+STATICFILES_LOCATION = "static"
+STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{STATICFILES_LOCATION}/"
+
+MEDIAFILES_LOCATION = "media"
+MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIAFILES_LOCATION}/"
