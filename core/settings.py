@@ -63,7 +63,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
 ROOT_URLCONF = "core.urls"
@@ -159,6 +158,23 @@ AWS_STORAGE_BUCKET_NAME = env("AWS_STORAGE_BUCKET_NAME")
 AWS_S3_REGION_NAME = env("AWS_S3_REGION_NAME", str, "eu-north-1")
 
 
+# Private Media File Storage
+AWS_QUERYSTRING_AUTH = False  # Enables signed URLs
+AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
+AWS_S3_FILE_OVERWRITE = False
+AWS_S3_OBJECT_PARAMETERS = {
+    "CacheControl": "max-age=86400",
+}
+
+STATICFILES_DIRS = [BASE_DIR / "static"]
+
+STATICFILES_LOCATION = "static"
+MEDIAFILES_LOCATION = "media"
+
+# STATIC_ROOT = "/static/"
+MEDIA_ROOT = BASE_DIR / "media/"
+MEDIA_URL = "media/"
+STATIC_URL = "static/"
 if DEBUG:
     # Development: use local file system for both default and staticfiles
     STORAGES = {
@@ -169,28 +185,9 @@ if DEBUG:
             "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
         },
     }
-    MEDIA_ROOT = "/media/"
-    MEDIA_URL = "/media/"
 else:
     # Production: use S3 for both default and staticfiles
     STORAGES = {
-        "default": {"BACKEND": "core.storage.MediaStorage"},
-        "staticfiles": {"BACKEND": "core.storage.StaticStorage"},
+        "default": {"BACKEND": "storages.backends.s3boto3.S3StaticStorage"},
+        "staticfiles": {"BACKEND": "storages.backends.s3boto3.S3StaticStorage"},
     }
-
-# Private Media File Storage
-AWS_QUERYSTRING_AUTH = True  # Enables signed URLs
-AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
-
-AWS_S3_OBJECT_PARAMETERS = {
-    "CacheControl": "max-age=86400",
-}
-AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
-
-STATICFILES_DIRS = [BASE_DIR / "static/"]
-
-STATICFILES_LOCATION = "static"
-STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{STATICFILES_LOCATION}/"
-
-MEDIAFILES_LOCATION = "media"
-MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIAFILES_LOCATION}/"
