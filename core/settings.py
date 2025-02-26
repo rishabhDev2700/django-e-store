@@ -30,10 +30,11 @@ SECRET_KEY = env("SECRET_KEY")
 DEBUG = env("DEBUG", bool, True)
 
 ALLOWED_HOSTS = ["*"]
-# CSRF_TRUSTED_ORIGINS = [
-#     "https://art-store-production.up.railway.app",
-#     "http://localhost",
-# ]
+CSRF_TRUSTED_ORIGINS = [
+    "https://art-store-production.up.railway.app",
+    "https://lumiere.fuzzydevs.com",
+    # "http://localhost",
+]
 # Application definition
 
 INSTALLED_APPS = [
