@@ -80,29 +80,26 @@ def explore(request):
     """
     Explore page of the website
     """
-    # Fetch latest products
-    latest_products = Product.objects.filter(is_available=True).order_by("-date_added")[
-        :8
-    ]
+    products = Product.objects.filter(is_available=True)
+    # Fetch latest products (limit to 8 and filter availability)
+    latest_products = products.order_by("-date_added")[:8]
 
-    # Fetch trending products (highest-rated)
-    trending_products = (
-        Product.objects.filter(is_available=True)
-        .annotate(avg_rating=Avg("rating__rating"))
-        .order_by("-avg_rating", "-date_added")[:8]
-    )
-
-    # Fetch products on discount
-    discounted_products = Product.objects.filter(
-        discount__valid_till__gte=timezone.now()
+    # Fetch trending products (highest-rated and filter availability)
+    trending_products = products.annotate(avg_rating=Avg("rating__rating")).order_by(
+        "-avg_rating", "-date_added"
     )[:8]
 
-    # Get featured categories (randomly selecting 4)
-    all_categories = list(Category.objects.all())
-    featured_categories = sample(all_categories, min(len(all_categories), 4))
+    # Fetch products on discount (filter by discount validity)
+    discounted_products = products.filter(discount__valid_till__gte=timezone.now())[:8]
 
+    # Get featured categories (randomly selecting 4 using `order_by('?')`)
     categories = Category.objects.all()
+    featured_categories = categories.order_by("?")[:4]
+
+    # Fetch all categories and tags once, instead of twice
     tags = Tag.objects.all()
+
+    # Pass context to template
     context = {
         "latest_products": latest_products,
         "trending_products": trending_products,
@@ -111,7 +108,8 @@ def explore(request):
         "categories": categories,
         "tags": tags,
     }
-    # Optional: log analytics event
+
+    # Optional: log analytics event (e.g., for page view tracking)
     # log_event(request.user, 'PAGE_VIEW', {'page': 'explore'})
 
     return render(request, "store/explore.html", context=context)
@@ -163,18 +161,15 @@ def list_categories(request):
 
     # Optional: log event for category listing
     # log_event(request.user, 'VIEW_CATEGORIES')
-    tags = Tag.objects.all()
     context = {"categories": categories, "tags": tags}
     return render(request, "store/categories.html", context=context)
 
 
 def show_category(request, slug):
     """Shows all products in a given category."""
-    category = get_object_or_404(
-        Category.objects.prefetch_related("product_set"), slug=slug
-    )
-    products = category.product_set.filter(is_available=True)
     categories = Category.objects.all()
+    category = categories.get(slug=slug)
+    products = category.product_set.filter(is_available=True)
     tags = Tag.objects.all()
 
     # Optional: log category view event

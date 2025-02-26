@@ -1,3 +1,4 @@
+from operator import index
 import os
 from uuid import uuid4
 from django.core.validators import MaxValueValidator, MinValueValidator
@@ -17,6 +18,9 @@ class Category(models.Model):
 
     class Meta:
         verbose_name_plural = "Categories"
+        indexes = [
+            models.Index(fields=["slug"], name="category_slug_index"),
+        ]
 
     def __str__(self):
         return self.name
@@ -53,6 +57,10 @@ class Product(models.Model):
 
     class Meta:
         ordering = ["-date_added"]
+        indexes = [
+            models.Index(fields=["slug"], name="product_slug_index"),
+            models.Index(fields=["category"], name="product_categories_index"),
+        ]
 
     def __str__(self):
         return self.name
@@ -114,6 +122,11 @@ class OrderProduct(models.Model):
     def __str__(self):
         return f"Item: {self.product.name} quantity: {self.quantity}"
 
+    class Meta:
+        indexes = [
+            models.Index(fields=["order", "product"], name="order_product_index"),
+        ]
+
 
 # Rating Model
 class Rating(models.Model):
@@ -128,6 +141,9 @@ class Rating(models.Model):
     class Meta:
         constraints = [
             models.UniqueConstraint(fields=["user", "product"], name="unique_rating")
+        ]
+        indexes = [
+            models.Index(fields=["product"], name="product_rating_index"),
         ]
 
 
@@ -150,3 +166,8 @@ class Payment(models.Model):
 
     def __str__(self):
         return f"{self.payment_method} - {self.transaction_id}"
+
+    class Meta:
+        indexes = [
+            models.Index(fields=["order"], name="payment_order_index"),
+        ]

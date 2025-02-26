@@ -4,7 +4,7 @@ from django.contrib.auth import logout, authenticate, login
 from django.shortcuts import render, redirect
 from taggit.models import Tag
 
-from accounts.forms import UserCreationForm
+from accounts.forms import LoginForm, UserCreationForm
 from store.models import Category
 
 
@@ -18,8 +18,6 @@ def sign_up(request):
             return redirect("accounts:sign_in")
         else:
             messages.error(request, "Some error Occurred!! Please Try again.")
-            return render(request, "accounts/sign_up.html")
-
     form = UserCreationForm()
     context = {
         "form": form,
@@ -31,7 +29,7 @@ def sign_up(request):
 
 def sign_in(request):
     if request.method == "POST":
-        username = request.POST["username"]
+        username = LoginForm(request.POST)
         password = request.POST["password"]
         user = authenticate(username=username, password=password)
         if user is not None:
@@ -44,7 +42,16 @@ def sign_in(request):
         else:
             messages.error(request, "Invalid Credentials")
             return redirect("accounts:sign_in")
-    return render(request, "accounts/sign_in.html",context={"categories": Category.objects.all(), "tags": Tag.objects.all()})
+    form = LoginForm()
+    return render(
+        request,
+        "accounts/sign_in.html",
+        context={
+            "categories": Category.objects.all(),
+            "tags": Tag.objects.all(),
+            "form": form,
+        },
+    )
 
 
 def logout_user(request):
