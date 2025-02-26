@@ -226,10 +226,10 @@ def review_form(request, id):
 def search_products(request):
     query = request.GET.get("query")
     # Enhanced search: consider using full-text search via SearchVector for better results
-    # search_result = Product.objects.annotate(
-    #     search=SearchVector("name", "description", "slug")
-    # ).filter(search=query)
-    search_result = Product.objects.filter(name__istartswith=query)
+    search_result = Product.objects.annotate(
+        search=SearchVector("name", "description", "slug")
+    ).filter(search=query)
+    # search_result = Product.objects.filter(name__istartswith=query)
 
     # Optional: log search event with query details
     # log_event(request.user, 'SEARCH', {'query': query})
