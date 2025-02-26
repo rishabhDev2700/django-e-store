@@ -1,5 +1,5 @@
 core/.env
-
+node_modules/
 collected
 */__pycache__/
 */migrations/__pycache__/
@@ -7,3 +7,4 @@ collected
 venv/
 .vscode
 media/
+static/assets

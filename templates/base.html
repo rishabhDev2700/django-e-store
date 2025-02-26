@@ -1,5 +1,5 @@
-<!DOCTYPE html>
 {% load static %}
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -8,10 +8,7 @@
 
   <!-- System fonts -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap">
-
-  <!-- Tailwind Browser Plugin -->
-  <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
-
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
   <!-- Favicons -->
   <link rel="icon" type="image/png" sizes="32x32" href="{% static 'fav/favicon-32x32.png' %}">
 
@@ -25,10 +22,10 @@
   {% include "./components/navigation.html" %}
 
   <!-- Main Content -->
-  <div class="grid lg:grid-cols-6">
+  <div class="grid grid-cols-1 lg:grid-cols-6 place-content-center">
 
     {% include "./components/sidebar.html" %}
-    <main class="max-w-[90rem] mx-auto px-4 py-8 min-h-[65vh] lg:col-span-5">
+    <main class="md:mx-auto px-4 py-8 min-h-[70vh] md:col-span-2 lg:col-span-5">
       {% block content %}{% endblock %}
     </main>
   </div>

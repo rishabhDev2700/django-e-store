@@ -1,12 +1,13 @@
 <footer
-    class="w-full h-[25vh] flex flex-col justify-evenly items-center font-raleway font-light text-gray-300 bg-neutral-900">
+    class="w-full min-h-[25vh] flex flex-col justify-evenly items-center font-raleway font-light text-gray-300 bg-neutral-900">
     <ul class="grid grid-cols-2 lg:grid-cols-3 gap-4 text-center mt-8">
-        <a class="hover:text-amber-300 hover:underline transition" href="{% url 'store:explore' %}">Explore</a>
-        <a class="hover:text-amber-300 hover:underline transition" href="{% url 'store:categories' %}">Categories</a>
-        <a class="hover:text-amber-300 hover:underline transition" href="{% url 'accounts:sign_up' %}">Sign Up</a>
-        <a class="hover:text-amber-300 hover:underline transition" href="{% url 'accounts:sign_in' %}">Sign In</a>
-        <a class="hover:text-amber-300 hover:underline transition" href="{% url 'store:privacy' %}">Privacy Policy</a>
-        <a class="hover:text-amber-300 hover:underline transition" href="{% url 'store:terms' %}">Terms & Conditions</a>
+        <a class="hover:text-amber-300 hover:underline duration-200" href="{% url 'store:explore' %}">Explore</a>
+        <a class="hover:text-amber-300 hover:underline duration-200" href="{% url 'store:categories' %}">Categories</a>
+        <a class="hover:text-amber-300 hover:underline duration-200" href="{% url 'accounts:sign_up' %}">Sign Up</a>
+        <a class="hover:text-amber-300 hover:underline duration-200" href="{% url 'accounts:sign_in' %}">Sign In</a>
+        <a class="hover:text-amber-300 hover:underline duration-200" href="{% url 'store:privacy' %}">Privacy Policy</a>
+        <a class="hover:text-amber-300 hover:underline duration-200" href="{% url 'store:terms' %}">Terms &
+            Conditions</a>
     </ul>
 
     <div class="animate-pulse text-sm py-4">Built by <span class="font-medium">Fuzzydevs</span>.</div>

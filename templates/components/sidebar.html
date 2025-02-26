@@ -1,5 +1,5 @@
-<aside class="mx-auto mt-8 lg:mb-auto px-2 lg:px-8 h-full w-full">
-    <form action="{% url 'store:search' %}" id="searchbar" method="get" class="flex items-center justify-center mb-2 ">
+<aside class="col-span-1 mt-4 w-full ml-8 flex flex-col items-stretch mx-auto">
+    <form action="{% url 'store:search' %}" id="searchbar" method="get" class="flex justify-center px-0 mx-0 mb-2 ">
         <input
             class="p-2 rounded-l-md border border-gray-300 focus:outline-none focus:ring focus:ring-gray-300 text-black"
             type="text" name="query" placeholder="Search">
@@ -13,22 +13,22 @@
     </form>
     <div class="hidden lg:flex lg:flex-col">
         <div class="text-center">
-            <h2 class="text-xl font-medium my-4">Categories</h2>
+            <h2 class="text-lg font-medium my-4">Categories</h2>
             <div class="flex flex-col">
                 {% for category in categories %}
                 <a href="{% url 'store:show-category' category.slug %}"
-                    class="bg-gray-100 text-gray-800 rounded-sm p-2 m-1 hover:bg-gray-200 transition">
+                    class="border text-sm font-thin border-gray-500 text-gray-800 hover:text-white rounded-md p-2 m-1 hover:bg-gray-500">
                     {{ category.name }}
                 </a>
                 {% endfor %}
             </div>
         </div>
         <div class="mt-8 text-center">
-            <h2 class="text-xl font-medium mb-4">Tags</h2>
+            <h2 class="text-lg font-medium mb-4">Tags</h2>
             <div class="flex flex-wrap justify-center">
                 {% for tag in tags %}
                 <a href="{% url 'store:products-by-tag' tag.slug %}"
-                    class="bg-gray-100 text-gray-800 font-semibold uppercase m-1 p-1 rounded-md hover:bg-gray-200 transition">
+                    class="border text-sm font-thin border-gray-500 text-gray-800 hover:text-white uppercase m-1 p-2 rounded-md hover:bg-gray-500">
                     {{ tag.name }}
                 </a>
                 {% endfor %}

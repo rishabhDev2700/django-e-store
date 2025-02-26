@@ -190,6 +190,7 @@ MEDIAFILES_LOCATION = "media"
 MEDIA_ROOT = BASE_DIR / "media/"
 MEDIA_URL = "media/"
 STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR / "collected/"
 if DEBUG:
     # Development: use local file system for both default and staticfiles
     STORAGES = {
