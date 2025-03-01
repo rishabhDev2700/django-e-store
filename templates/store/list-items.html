@@ -1,29 +1,27 @@
-{%extends 'base.html'%}
-{% load static%}
-{%block title%}{{title}}{%endblock%}
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ title }}{% endblock %}
+
 {% block content %}
-<div class="lg:w-full">
+<h1 class="text-5xl text-center lg:mb-8 py-4">{{ category.name }}</h1>
 
-    <h1 class="text-5xl text-center lg:mb-8 py-4">{{category.name}}</h1>
-
-    <div class="flex flex-col justify-start items-center lg:grid lg:grid-cols-4 mx-auto font-raleway">
-        {% for product in products %}
-
-        <a class="" href="{{product.get_absolute_url}}">
-            <div
-                class="flex flex-col text-white overflow-hidden min-h-52 max-h-96 rounded-lg shadow-md shadow-black/20 m-2 hover:scale-95 bg-neutral-900 duration-200">
-                <img class="w-full lg:w-96 object-cover" src="{{product.cover.url}}" alt="">
-                <div class="p-4 flex flex-col justify-between">
-                    <h2 class="text-2xl my-1">{{product.name}}</h2>
-                    <div class="font-light text-white/80 my-1">{{product.category}}</div>
-                    <div class="font-bold text-white/80 my-1 text-2xl">$ {{product.price}}</div>
-                </div>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    {% for product in products %}
+    <a class="mx-0 p-0" href="{{ product.get_absolute_url }}">
+        <div class="border-2 border-gray-400 rounded-lg overflow-hidden flex flex-col w-full h-96 mx-auto">
+            <img class="w-full h-64 object-cover" src="{{ product.cover.url }}" alt="">
+            <div class="p-4 bg-neutral-800 flex flex-col justify-between flex-grow">
+                <h2 class="text-xl text-white my-1 truncate">{{ product.name }}</h2>
+                <div class="font-light text-white/80 my-1">{{ product.category }}</div>
+                <div class="font-bold text-white/80 my-1 text-2xl">$ {{ product.price }}</div>
             </div>
-        </a>
-        {% endfor %}
-        {% if not products %}
-    </div>
-    <h1 class="text-2xl text-center font-bold my-8">No Products</h1>
+        </div>
+    </a>
+    {% endfor %}
+
+    {% if not products %}
+    <h2 class="text-2xl text-center font-bold my-8">No Products</h2>
     {% endif %}
 </div>
 {% endblock content %}
