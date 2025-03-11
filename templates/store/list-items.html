@@ -10,7 +10,7 @@
     {% for product in products %}
     <a class="mx-0 p-0" href="{{ product.get_absolute_url }}">
         <div class="border-2 border-gray-400 rounded-lg overflow-hidden flex flex-col w-full h-96 mx-auto">
-            <img class="w-full h-64 object-cover" src="{{ product.cover.url }}" alt="">
+            <img loading="lazy" class="w-full h-64 object-cover" src="{{ product.cover.url }}" alt="">
             <div class="p-4 bg-neutral-800 flex flex-col justify-between flex-grow">
                 <h2 class="text-xl text-white my-1 truncate">{{ product.name }}</h2>
                 <div class="font-light text-white/80 my-1">{{ product.category }}</div>

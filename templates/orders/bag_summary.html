@@ -21,14 +21,16 @@
       class="bag-item flex flex-col lg:flex-row items-center space-x-2 lg:justify-between gap-y-6 p-4 w-full max-w-7xl bg-gray-200 rounded-xl shadow-lg my-2">
 
       <!-- Product Image -->
-      <img class="h-32 w-52 object-cover rounded-lg shadow-md" src="{{ product.cover.url }}" alt="{{ product.name }}">
+      <img loading="lazy" class="h-32 w-52 object-cover rounded-lg shadow-md" src="{{ product.cover.url }}"
+        alt="{{ product.name }}">
 
       <!-- Product Name -->
 
       <!-- Product Price & Quantity -->
       <div class="flex items-center space-x-2 text-slate-800">
         <div class="flex-1 text-center lg:text-left">
-          <h3 class="text-xl font-bold text-slate-800 hover:text-slate-500 hover:cursor-pointer"><a href="{{product.get_absolute_url}}">{{ product.name }}</a>
+          <h3 class="text-xl font-bold text-slate-800 hover:text-slate-500 hover:cursor-pointer"><a
+              href="{{product.get_absolute_url}}">{{ product.name }}</a>
           </h3>
           <div class="text-lg">Price: <span class="font-bold">${{ product.price }}</span></div>
         </div>

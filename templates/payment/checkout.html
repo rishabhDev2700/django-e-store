@@ -3,7 +3,7 @@
 {%endblock%}
 {%block content%}
 <div class="text-center">
-  <h1 class="text-5xl text-center">Lumière</h1>
+  <h1 class="text-5xl text-center">Chill Monkey Store</h1>
   <div class="text-xl my-6">After confirming payment you order will be placed</div>
   <div class="grid justify-center text-3xl animate animate-pulse">
     <button
@@ -21,7 +21,7 @@
     key: "{{ razorpay_merchant_key }}",
     amount: "{{ razorpay_amount }}",
     currency: "{{ currency }}",
-    name: "Lumière",
+    name: "Chill Monkey Store",
     order_id: "{{ razorpay_order_id }}",
     callback_url: "{{ callback_url }}",
   };

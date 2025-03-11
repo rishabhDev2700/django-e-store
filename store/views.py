@@ -64,7 +64,7 @@ def homepage(request):
     new_arrivals = Product.objects.all()[:10]
     tags = Tag.objects.all()
     context = {
-        "title": "Lumière Store",
+        "title": "Chill Monkey Store",
         "products": new_arrivals,
         "tags": tags,
         "categories": categories,

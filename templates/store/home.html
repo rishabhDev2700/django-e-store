@@ -3,20 +3,25 @@
 
 {% block title %}{{title}}{% endblock title %}
 {% block content %}
-<h1 class="text-3xl font-megrim mb-8 lg:text-center">Explore Imagination</h1>
-<div class="">
-    <video class="h-[50vh] w-full rounded-lg object-cover" src="{%static 'assets/tree.webm'%}"type="video/webm"autoplay loop muted>
-</div>
-<h1 class="text-center text-2xl xl:text-4xl my-8">Lets Explore</h1>
-<div class="my-4">
-</div>
-<div class="my-4">
-    <video class="h-[50vh] w-full rounded-lg object-cover" src="{%static 'assets/stop-motion.webm'%}"type="video/webm"autoplay loop muted>
-</div>
+<div class="container mx-auto px-4 py-8 max-w-7xl lg:col-span-3 xl:col-span-4">
 
-<div class="m-8 text-center text-2xl">
-    <a class="inline-block px-8 py-2 bg-teal-500 text-white shadow-md rounded-md hover:bg-teal-600 hover:shadow-black/20 duration-200"
-        href="{% url 'store:categories'%}">Go to the Store</a>
+    <h1 class="text-3xl font-megrim mb-8 lg:text-center">Explore Imagination</h1>
+    <div class="">
+        <video class="h-[50vh] w-full rounded-lg object-cover" src="{%static 'assets/tree.webm'%}" type="video/webm"
+            autoplay loop muted>
+    </div>
+    <h1 class="text-center text-2xl xl:text-4xl my-8">Lets Explore</h1>
+    <div class="my-4">
+    </div>
+    <div class="my-4">
+        <video class="h-[50vh] w-full rounded-lg object-cover" src="{%static 'assets/stop-motion.webm'%}"
+            type="video/webm" autoplay loop muted>
+    </div>
+
+    <div class="m-8 text-center text-2xl">
+        <a class="inline-block px-8 py-2 bg-teal-500 text-white shadow-md rounded-md hover:bg-teal-600 hover:shadow-black/20 duration-200"
+            href="{% url 'store:categories'%}">Go to the Store</a>
+    </div>
 </div>
 <script src='{% static "js/script.js" %}'></script>
 {% endblock content %}

@@ -100,6 +100,7 @@ class Discount(models.Model):
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     is_completed = models.BooleanField(default=False)
+    paid = models.BooleanField(default=False)
     total = models.PositiveIntegerField(default=0)
     created_on = models.DateTimeField(auto_now_add=True)
     objects = models.Manager()

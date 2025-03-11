@@ -1,71 +1,78 @@
-{%extends 'base.html'%}
-{%block title%}Orders{%endblock%}
-{%block content%}
-<div class="bag-summary">
-  <div class="row">
-    <h2 class="title">Your Orders</h2>
-    </div>
-    <div class="orders">
-        <h3 class="title">Incomplete Orders</h3>
-        <hr>
-        {% for order in incompleted_orders %}
-        <div id="{{order.0.id}}">
-            <h3 class="id">Order ID:{{order.0.id}}</h3>
-            <table>
-                <tr>
-                <th class="name">Item</th>
-                <th class="qnty">Qnty</th>
-                <th class="price">Price</th>
-                </tr>
-                {%for item in order.1 %}
-                <tr>
-                    <td class="name">{{item.item.name}}</td>
-                    <td class="qnty">{{item.quantity}}</td>
-                    <td class="price">{{item.price}}</td>
-                </tr>
-                {%endfor%}
-            </table>
-            <hr>          
-            <h2>Total:  Rs. {{order.0.total}}</h2>
-            <hr>
-            <br>
-        </div>
-        {% endfor %}
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <h3 class="title">Completed Orders</h3>
-        <hr>
-        {% for order in completed_orders %}
-        <div id="{{order.0.id}}">
-            <h3 class="id">Order ID:{{order.0.id}}</h3>
-            <table>
-                <tr>
-                <th class="name">Item</th>
-                <th class="qnty">Qnty</th>
-                <th class="price">Price</th>
-                </tr>
-                {%for item in order.1 %}
-                <tr>
-                    <td class="name">{{item.item.name}}</td>
-                    <td class="qnty">{{item.quantity}}</td>
-                    <td class="price">{{item.price}}</td>
-                </tr>
-                {%endfor%}
-            </table>          
-            <hr>          
-            <h2>Total:  Rs. {{order.0.total}}</h2>
-            <hr>
-            <br>        
-        </div>
-        {% endfor %}
-        <hr>
-       
+{% extends 'base.html' %}
+{% block title %}Orders{% endblock %}
+{% block content %}
+<div class="max-w-7xl mx-auto p-6">
+    <div class="mb-8">
+        <h2 class="text-3xl font-bold text-gray-800">Your Orders</h2>
     </div>
 
+    <div class="space-y-12">
+        <div>
+            <h3 class="text-2xl font-semibold text-gray-700">Incomplete Orders</h3>
+            <hr class="my-4">
+            {% for order in incompleted_orders %}
+            <div id="{{ order.0.id }}" class="border border-gray-200 rounded-lg p-4 shadow-sm bg-white">
+                <h4 class="text-lg font-medium text-gray-600 mb-3">Order ID: {{ order.0.id }}</h4>
+                <table class="w-full border-collapse">
+                    <thead>
+                        <tr class="bg-gray-100">
+                            <th class="p-2 text-left">Item</th>
+                            <th class="p-2 text-left">Name</th>
+                            <th class="p-2 text-center">Quantity</th>
+                            <th class="p-2 text-right">Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in order.1 %}
+                        <tr class="border-t">
+                            <td class="p-2">
+                                <img class="w-24 h-24 object-cover rounded-md" src="{{ item.product.thumbnail.url }}"
+                                    alt="{{ item.product.name }}">
+                            </td>
+                            <td class="p-2 text-gray-700">{{ item.product.name }}</td>
+                            <td class="p-2 text-center">{{ item.quantity }}</td>
+                            <td class="p-2 text-right">Rs. {{ item.price }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div class="mt-4 text-right font-semibold text-gray-800">
+                    Total: Rs. {{ order.0.total }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div>
+            <h3 class="text-2xl font-semibold text-gray-700">Completed Orders</h3>
+            <hr class="my-4">
+            {% for order in completed_orders %}
+            <div id="{{ order.0.id }}" class="border rounded-lg p-4 shadow-sm bg-white">
+                <h4 class="text-lg font-medium text-gray-600 mb-3">Order ID: {{ order.0.id }}</h4>
+                <table class="w-full border-collapse">
+                    <thead>
+                        <tr class="bg-gray-100">
+                            <th class="p-2 text-left">Name</th>
+                            <th class="p-2 text-center">Quantity</th>
+                            <th class="p-2 text-right">Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in order.1 %}
+                        <tr class="border-t">
+                            <td class="p-2 text-gray-700">{{ item.item.name }}</td>
+                            <td class="p-2 text-center">{{ item.quantity }}</td>
+                            <td class="p-2 text-right">Rs. {{ item.price }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div class="mt-4 text-right font-semibold text-gray-800">
+                    Total: Rs. {{ order.0.total }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 </div>
-
-{%endblock%}
+{% endblock %}

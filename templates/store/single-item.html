@@ -10,7 +10,8 @@
             {% for image in images %}
             <div
                 class="carousel-item absolute inset-0 w-full h-full opacity-0 transition-opacity duration-700 ease-in-out">
-                <img src="{{ image.image.url }}" alt="Product Image" class="w-full h-full object-contain rounded-xl">
+                <img loading="lazy" src="{{ image.image.url }}" alt="Product Image"
+                    class="w-full h-full object-contain rounded-xl">
             </div>
             {% endfor %}
         </div>

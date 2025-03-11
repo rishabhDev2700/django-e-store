@@ -4,7 +4,7 @@
 {% block title %}Explore{% endblock %}
 
 {% block content %}
-<div class="container mx-auto px-4 py-8 max-w-7xl col-span-4">
+<div class="container mx-auto px-4 py-8 max-w-7xl lg:col-span-3 xl:col-span-4">
     <h1 class="text-2xl text-center mb-8">Explore</h1>
 
     <!-- Featured Categories -->
@@ -14,7 +14,8 @@
             {% for category in featured_categories %}
             <a href="{{ category.get_absolute_url }}"
                 class="block rounded-lg overflow-hidden shadow-md hover:shadow-xl transition">
-                <img src="{{ category.cover.url }}" alt="{{ category.name }}" class="w-full h-48 object-cover">
+                <img loading="lazy" src="{{ category.cover.url }}" alt="{{ category.name }}"
+                    class="w-full h-48 object-cover" loading="lazy">
                 <div class="p-3 text-center bg-gray-900 text-white">
                     <h3 class="text-lg font-medium">{{ category.name }}</h3>
                 </div>
@@ -30,7 +31,7 @@
             {% for product in latest_products %}
             <a href="{{ product.get_absolute_url }}"
                 class="block bg-white rounded-lg shadow-md hover:shadow-xl transition">
-                <img src="{{ product.cover.url }}" alt="{{ product.name }}"
+                <img loading="lazy" src="{{ product.cover.url }}" alt="{{ product.name }}"
                     class="w-full h-48 object-cover rounded-t-lg">
                 <div class="p-4">
                     <h3 class="text-lg font-medium">{{ product.name }}</h3>
@@ -49,7 +50,7 @@
             {% for product in trending_products %}
             <a href="{{ product.get_absolute_url }}"
                 class="block bg-white rounded-lg shadow-md hover:shadow-xl transition">
-                <img src="{{ product.cover.url }}" alt="{{ product.name }}"
+                <img loading="lazy" src="{{ product.cover.url }}" alt="{{ product.name }}"
                     class="w-full h-48 object-cover rounded-t-lg">
                 <div class="p-4">
                     <h3 class="text-lg font-medium">{{ product.name }}</h3>
@@ -68,7 +69,7 @@
             {% for product in discounted_products %}
             <a href="{{ product.get_absolute_url }}"
                 class="block bg-white rounded-lg shadow-md hover:shadow-xl transition">
-                <img src="{{ product.cover.url }}" alt="{{ product.name }}"
+                <img loading="lazy" src="{{ product.cover.url }}" alt="{{ product.name }}"
                     class="w-full h-48 object-cover rounded-t-lg">
                 <div class="p-4">
                     <h3 class="text-lg font-medium">{{ product.name }}</h3>

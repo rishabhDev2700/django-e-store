@@ -81,6 +81,7 @@ def bag_clear(request):
 
 def view_orders(request):
     all_orders = Order.objects.filter(user=request.user)
+    print(all_orders)
     incompleted = all_orders.filter(is_completed=False)
     incompleted_orders = []
     for order in incompleted:
@@ -95,4 +96,5 @@ def view_orders(request):
         "completed_orders": completed_orders,
         "incompleted_orders": incompleted_orders,
     }
+    print(context)
     return render(request, "orders/view_orders.html", context=context)

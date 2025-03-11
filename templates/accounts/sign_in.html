@@ -2,7 +2,7 @@
 {% load tailwind_filters %}
 {% block title %}Sign In{% endblock %}
 {% block content %}
-<div class="w-full max-w-2xl bg-white p-6 shadow-md shadow-black/20 rounded-lg border-2 border-gray-200">
+<div class="max-w-2xl bg-white p-6 shadow-md shadow-black/20 rounded-lg border-2 border-gray-200">
 
     <h1 class="text-4xl font-semibold mb-6">Create an Account</h1>
     <form action="{% url 'accounts:sign_up' %}" method="post" class="w-full flex flex-col">

@@ -3,11 +3,12 @@
 {% block title %}{{ item.name }}{% endblock %}
 
 {% block content %}
-<div class="max-w-7xl mx-auto px-4 py-8">
+<div class="container mx-auto px-4 py-8 max-w-7xl lg:col-span-3 xl:col-span-4">
   <h1 class="text-4xl font-bold mb-6 text-center">{{ item.name }}</h1>
   <div class="flex flex-col lg:flex-row items-center lg:space-x-8">
     <div class="w-full lg:w-1/2">
-      <img class="w-full rounded-md shadow-md object-cover" src="{{ item.cover.url }}" alt="{{ item.name }}">
+      <img loading="lazy" class="w-full rounded-md shadow-md object-cover" src="{{ item.cover.url }}"
+        alt="{{ item.name }}">
     </div>
     <div class="w-full lg:w-1/2 mt-6 lg:mt-0">
       <h2 class="text-2xl font-semibold mb-4">{{ item.name }}</h2>

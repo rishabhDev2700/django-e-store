@@ -54,12 +54,14 @@ def payment_handler(request):
             if result is not None:
                 try:
                     payment_order = PaymentOrder.objects.get(payment_order_id=order_id)
+                    print(payment_order)
                     client.payment.capture(payment_id, payment_order.amount * 100)
                     order = Order.objects.create(
                         user=request.user,
                         total=payment_order.amount,
-                        razorpay_order_id=order_id,
+                        paid=True,
                     )
+                    print(order)
                     payment_order.order = order
                     payment_order.payment_id = payment_id
                     payment_order.signature = signature
@@ -75,13 +77,17 @@ def payment_handler(request):
                             quantity=item["quantity"],
                         )
                     messages.success(request, "Order placed Successfully")
-                    return redirect("orders:summary")
-                except:
-                    messages.error(request, "Order Failed")
+                    bag = Bag(request)
+                    bag.clear()
+                except Exception as e:
+                    messages.error(request, f"Order Failed:{e}")
+                    print(e)
+                return redirect("orders:summary")
             else:
                 messages.error(request, "Order Failed. Not verified!!")
             return redirect("orders:summary")
-        except:
-            return HttpResponseBadRequest()
+        except Exception as e:
+            print(e)
+            return HttpResponseBadRequest(e)
     else:
         return HttpResponseBadRequest()

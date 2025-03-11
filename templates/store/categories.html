@@ -3,12 +3,12 @@
 {% block title %}Categories{% endblock %}
 
 {% block content %}
-<div class="flex flex-col items-center px-4 lg:px-12">
+<div class="container mx-auto px-4 py-8 max-w-7xl lg:col-span-3 xl:col-span-4">
     <h1 class="text-4xl font-semibold text-center mb-6">Categories</h1>
 
     <!-- Responsive Banner -->
     <div class="w-full max-w-7xl">
-        <img class="h-48 w-full object-cover object-center rounded-lg"
+        <img loading="lazy" class="h-48 w-full object-cover object-center rounded-lg"
             src="{% static 'assets/category-image.jpg' %}" alt="Banner">
     </div>
 
@@ -17,7 +17,8 @@
         {% for category in categories %}
         <a href="{{ category.get_absolute_url }}"
             class="group block bg-white text-white rounded-lg overflow-hidden shadow-lg shadow-black/20 hover:scale-95 transition-transform">
-            <img class="w-full h-40 object-cover" src="{{ category.cover.url }}" alt="{{ category.name }}">
+            <img loading="lazy" class="w-full h-40 object-cover" src="{{ category.cover.url }}"
+                alt="{{ category.name }}">
             <div class="text-center py-3 bg-neutral-800">
                 <h2 class="text-xl font-medium">{{ category.name }}</h2>
             </div>
