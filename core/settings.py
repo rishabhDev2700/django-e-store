@@ -32,7 +32,7 @@ DEBUG = env("DEBUG", bool, True)
 ALLOWED_HOSTS = ["*"]
 CSRF_TRUSTED_ORIGINS = [
     "https://art-store-production.up.railway.app",
-    "https://Chill Monkey.fuzzydevs.com",
+    "https://chillmonkey.fuzzydevs.com",
     # "http://localhost",
     "http://0.0.0.0",
 ]
